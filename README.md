@@ -1,6 +1,6 @@
 # dynamic log level #
 
- a simple trick to change log level at runtime 
+A simple trick to change log level dynamically at runtime. You can copy all the code (only 2 files) into your project to use it. Please note the mechanism is designed for log4j 1.x, which is used widely in Java applications.
 
 ## Usage ##
 
@@ -34,7 +34,7 @@
     
 ## Log4jLogLevelManager ##
 
-This trick is for log4j 1.x, which is used widely in Java application. `LogLevelManager` is the interface for this manager containing two main methods as follows
+`LogLevelManager` is the main interface to manage the log level.
 
     public interface LogLevelManager {
 
@@ -44,8 +44,8 @@ This trick is for log4j 1.x, which is used widely in Java application. `LogLevel
 
     }
 
-`Log4jLogLevelManager` uses `org.apache.log4j.LogManager` rather than `org.apache.log4j.Logger` to provide log level management since `Logger#exists(String)` is a deprecated method.
+Under the hood, `Log4jLogLevelManager` calls `org.apache.log4j.LogManager` to change log level.
 
-For recovering log level, `Log4jLogLevelManager` pushes the original log level to a map when changed at the first time and sets it back to logger when `resetLogLevel` is called. The map here is `ConcurrentHashMap` to prevent concurrent issues.
+In order to reset the log level, `Log4jLogLevelManager` pushes the original log level to an internal map and sets it back to logger when `resetLogLevel` is called. The map here is `ConcurrentHashMap` so you don't need to worry about the concurrent issues.
 
-Feel free to use this trick or try it if you have never thinked of changing log level at runtime. It may help you a lot when you have to solve an online problem but there's very few log at such log level. :)
+Feel free to use this trick if you want to change log level at runtime. It may help you a lot like inspecting an online problem but there's few logs, then you can change the log level to output more. :)
